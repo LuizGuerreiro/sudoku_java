@@ -23,7 +23,7 @@ public class Table {
     }
 
     public String toString() {
-        String outPut = "*-*-*-*-*-*-*-*-*-*-*-*-*\n";
+        String outPut = "\n*-*-*-*-*-*-*-*-*-*-*-*-*\n";
         int auxiliar;
         for (int i = 0; i < maxRange; i++) {
             outPut = outPut + "|";
@@ -50,7 +50,7 @@ public class Table {
         table[line][column].setValue(0);
     }
 
-    public void testTable() {
+    public void testTable() { // IMPLEMENTAR GAME STATUS
         boolean result;
         result = Verification.lines(table);
         result = Verification.columns(table);

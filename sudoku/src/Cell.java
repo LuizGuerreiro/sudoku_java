@@ -17,7 +17,9 @@ public class Cell {
 
     public void setValue(int value) {
         if (fixed) {
-            System.out.println("Célula fixa!");
+            System.out.println(">>>>>>>>>------------<<<<<<<<<");
+            System.out.println(">>>>>>>>>Célula fixa!<<<<<<<<<");
+            System.out.println(">>>>>>>>>------------<<<<<<<<<");
         } else {
             this.value = value;
             this.pencil = null;
@@ -26,7 +28,9 @@ public class Cell {
 
     public void setPencil(int value) {
         if (fixed) {
-            System.out.println("Célula fixa!");
+            System.out.println(">>>>>>>>>------------<<<<<<<<<");
+            System.out.println(">>>>>>>>>Célula fixa!<<<<<<<<<");
+            System.out.println(">>>>>>>>>------------<<<<<<<<<");
         } else {
             this.pencil[value-1] = value;
         }

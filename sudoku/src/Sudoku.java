@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Sudoku {
     public static void main(String[] args) throws Exception {
         
@@ -7,19 +9,132 @@ public class Sudoku {
 
         Table table = new Table(filteredArgs);
 
-        System.out.println(table.toString());
+        Scanner scanner = new Scanner(System.in);
+        var option = -1;
 
-        table.insertValue(6, 1, 2);
-        table.insertValue(7, 0, 9);
-        table.insertValue(7, 0, 2);
-        table.insertValue(6, 1, 9);
+        do {
+            System.out.println(">>>>>>>>>>> SUDOKU <<<<<<<<<<<");
+            System.out.println("Escolha uma opção:");
+            System.out.println("1 - Iniciar novo jogo");
+            System.out.println("2 - Inserir número");
+            System.out.println("3 - Apagar número");
+            System.out.println("4 - Visualizar jogo");
+            System.out.println("5 - Verificar status do jogo");
+            System.out.println("0 - Sair");
+            System.out.print("Opção: ");
 
-        System.out.println(table.toString());
+            try {
+                option = scanner.nextInt();
+            } catch (Exception e) {
+                scanner.nextLine();
+                printError();
+            }
 
-        table.testTable();
+            switch (option) {
+                case 1: //Iniciar novo jogo
+                    printTable(table);
+                    option = -1;
+                    break;
+                case 2: //Inserir novo número
+                    insertValue(scanner, table);
+                    printTable(table);
+                    option = -1;
+                    break;
+                case 3: //Apagar número
+                    deleteValue(scanner, table);
+                    printTable(table);
+                    option = -1;
+                    break;
+                case 4: //Visualizar jogo
+                    printTable(table);
+                    option = -1;
+                    break;
+                case 5: //Verificar status do jogo
+                    table.testTable();
+                    option = -1;
+                    break;
+                case 0:
+                    System.out.println(">>>>> Saindo do jogo... <<<<<");
+                    break;
+                default:
+                    System.out.println("====== Opção inválida! ======");
+                    break;
+            }
+        } while (option != 0);
+
+        scanner.close();
+
+        // table.insertValue(6, 1, 2);
+        // table.insertValue(7, 0, 9);
+        // table.insertValue(7, 0, 2);
+        // table.insertValue(6, 1, 9);
+
+        // System.out.println(table.toString());
+
+        // table.testTable();
 
         //var temp = table.getValues();
 
         //System.out.printf((TableTemplate.TABLE_TEMPLATE) + "/n", temp.toString());
+    }
+    
+    private static void insertValue(Scanner scanner, Table table) {
+        var line = -1;
+        var column = -1;
+        var value = -1;
+
+        System.out.print("Digite o número da linha (1-9): ");
+        try {
+            line = scanner.nextInt();
+        } catch (Exception e) {
+            scanner.nextLine();
+            printError();
+        }
+        System.out.print("Digite o número da coluna (1-9): ");
+        try {
+            column = scanner.nextInt();
+        } catch (Exception e) {
+            scanner.nextLine();
+            printError();
+        }
+        System.out.print("Digite o valor desejado (1-9): ");
+        try {
+            value = scanner.nextInt();
+        } catch (Exception e) {
+            scanner.nextLine();
+            printError();
+        }
+        table.insertValue(--line, --column, value);
+    }
+    
+    private static void deleteValue(Scanner scanner, Table table) {
+        var line = -1;
+        var column = -1;
+
+        System.out.print("Digite o número da linha (1-9): ");
+        try {
+            line = scanner.nextInt();
+        } catch (Exception e) {
+            scanner.nextLine();
+            printError();
+        }
+        System.out.print("Digite o número da coluna (1-9): ");
+        try {
+            column = scanner.nextInt();
+        } catch (Exception e) {
+            scanner.nextLine();
+            printError();
+        }
+        table.deleteValue(--line, --column);
+    }
+
+    public static void printTable(Table table) {
+        System.out.println(table.toString());
+    }
+
+    private static void printError() {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println("Deve ser informado um número!");
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 }
