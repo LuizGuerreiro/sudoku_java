@@ -1,2 +1,2 @@
-# sudoku_java
-Jogo de sudoku desenvolvido em Java
+# Sudoku Java
+Jogo de sudoku desenvolvido em Java que roda no terminal.
