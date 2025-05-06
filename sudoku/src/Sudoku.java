@@ -7,21 +7,17 @@ public class Sudoku {
         
         final String[] filteredArgs = initialArgs.split(" ");
 
-        Table table = new Table(filteredArgs);
-
         Scanner scanner = new Scanner(System.in);
         var option = -1;
 
         do {
-            System.out.println(">>>>>>>>>>> SUDOKU <<<<<<<<<<<");
-            System.out.println("Escolha uma opção:");
-            System.out.println("1 - Iniciar novo jogo");
-            System.out.println("2 - Inserir número");
-            System.out.println("3 - Apagar número");
-            System.out.println("4 - Visualizar jogo");
-            System.out.println("5 - Verificar status do jogo");
-            System.out.println("0 - Sair");
-            System.out.print("Opção: ");
+            System.out.println(" =============================");
+            System.out.println(" >>>>>>>>>> SUDOKU <<<<<<<<<<<");
+            System.out.println(" =============================");
+            System.out.println(" Escolha uma opção:");
+            System.out.println(" 1 - Iniciar novo jogo");
+            System.out.println(" 0 - Sair");
+            System.out.print(" Opção: ");
 
             try {
                 option = scanner.nextInt();
@@ -32,78 +28,118 @@ public class Sudoku {
 
             switch (option) {
                 case 1: //Iniciar novo jogo
-                    printTable(table);
-                    option = -1;
-                    break;
-                case 2: //Inserir novo número
-                    insertValue(scanner, table);
-                    printTable(table);
-                    option = -1;
-                    break;
-                case 3: //Apagar número
-                    deleteValue(scanner, table);
-                    printTable(table);
-                    option = -1;
-                    break;
-                case 4: //Visualizar jogo
-                    printTable(table);
-                    option = -1;
-                    break;
-                case 5: //Verificar status do jogo
-                    table.testTable();
+                    Table table = new Table(filteredArgs);
+                    inGameMenu(table, scanner, option);
                     option = -1;
                     break;
                 case 0:
-                    System.out.println(">>>>> Saindo do jogo... <<<<<");
+                    System.out.println(" >>>>> Saindo do jogo... <<<<<");
                     break;
                 default:
-                    System.out.println("====== Opção inválida! ======");
+                    printInvalid();
+                    break;
+            }
+        } while (option != 0 && option != 1);
+
+        scanner.close();
+    }
+    
+    private static void inGameMenu(Table table, Scanner scanner, int option) {
+        do {
+            System.out.println("\n =============================");
+            System.out.println(" >>>>>>>>>> SUDOKU <<<<<<<<<<<");
+            System.out.println(" =============================");
+            System.out.println(" Escolha uma opção:");
+            System.out.println(" 1 - Inserir número");
+            System.out.println(" 2 - Apagar número");
+            System.out.println(" 3 - Visualizar jogo");
+            System.out.println(" 4 - Verificar status do jogo");
+            System.out.println(" 5 - Reiniciar jogo");
+            System.out.println(" 0 - Voltar ao menu inicial");
+            System.out.print(" Opção: ");
+
+            try {
+                option = scanner.nextInt();
+            } catch (Exception e) {
+                scanner.nextLine();
+                printError();
+            }
+
+            switch (option) {
+                case 1: //Inserir novo número
+                    insertValue(scanner, table);
+                    option = -1;
+                    break;
+                case 2: //Apagar número
+                    deleteValue(scanner, table);
+                    option = -1;
+                    break;
+                case 3: //Visualizar jogo
+                    printTable(table);
+                    option = -1;
+                    break;
+                case 4: //Verificar status do jogo
+                    table.testTable();
+                    option = -1;
+                    break;
+                case 5: //Reiniciar jogo
+                    table.restart();
+                    option = -1;
+                    break;
+                case 0:
+                    System.out.println(" >>>>> Saindo do jogo... <<<<<");
+                    break;
+                default:
+                    printInvalid();
                     break;
             }
         } while (option != 0);
-
-        scanner.close();
-
-        // table.insertValue(6, 1, 2);
-        // table.insertValue(7, 0, 9);
-        // table.insertValue(7, 0, 2);
-        // table.insertValue(6, 1, 9);
-
-        // System.out.println(table.toString());
-
-        // table.testTable();
-
-        //var temp = table.getValues();
-
-        //System.out.printf((TableTemplate.TABLE_TEMPLATE) + "/n", temp.toString());
     }
-    
+
     private static void insertValue(Scanner scanner, Table table) {
         var line = -1;
         var column = -1;
         var value = -1;
 
-        System.out.print("Digite o número da linha (1-9): ");
-        try {
-            line = scanner.nextInt();
-        } catch (Exception e) {
-            scanner.nextLine();
-            printError();
-        }
-        System.out.print("Digite o número da coluna (1-9): ");
-        try {
-            column = scanner.nextInt();
-        } catch (Exception e) {
-            scanner.nextLine();
-            printError();
-        }
-        System.out.print("Digite o valor desejado (1-9): ");
-        try {
-            value = scanner.nextInt();
-        } catch (Exception e) {
-            scanner.nextLine();
-            printError();
-        }
+        do {
+            System.out.print(" Digite o número da linha (1-9): ");
+            try {
+                line = scanner.nextInt();
+            } catch (Exception e) {
+                scanner.nextLine();
+                printError();
+            }
+            if (line < 1 || line > Table.maxRange) {
+                printInvalid();
+            }
+        } while (line < 1 || line > Table.maxRange);
+        
+        do {
+            System.out.print(" Digite o número da coluna (1-9): ");
+            try {
+                column = scanner.nextInt();
+            } catch (Exception e) {
+                scanner.nextLine();
+                printError();
+            }
+            if (column < 1 || column > Table.maxRange) {
+                printInvalid();
+            }
+        } while (column < 1 || column > Table.maxRange);
+
+        do {
+            System.out.print(" Digite o valor desejado (1-9): ");
+            try {
+                value = scanner.nextInt();
+            } catch (Exception e) {
+                scanner.nextLine();
+                printError();
+            }
+            if (value < 1 || value > Table.maxRange) {
+                printInvalid();
+            }
+        } while (value < 1 || value > Table.maxRange);
+
         table.insertValue(--line, --column, value);
     }
     
@@ -111,20 +147,32 @@ public class Sudoku {
         var line = -1;
         var column = -1;
 
-        System.out.print("Digite o número da linha (1-9): ");
-        try {
-            line = scanner.nextInt();
-        } catch (Exception e) {
-            scanner.nextLine();
-            printError();
-        }
-        System.out.print("Digite o número da coluna (1-9): ");
-        try {
-            column = scanner.nextInt();
-        } catch (Exception e) {
-            scanner.nextLine();
-            printError();
-        }
+        do {
+            System.out.print(" Digite o número da linha (1-9): ");
+            try {
+                line = scanner.nextInt();
+            } catch (Exception e) {
+                scanner.nextLine();
+                printError();
+            }
+            if (line < 1 || line > Table.maxRange) {
+                printInvalid();
+            }
+        } while (line < 1 || line > Table.maxRange);
+        
+        do {
+            System.out.print(" Digite o número da coluna (1-9): ");
+            try {
+                column = scanner.nextInt();
+            } catch (Exception e) {
+                scanner.nextLine();
+                printError();
+            }
+            if (column < 1 || column > Table.maxRange) {
+                printInvalid();
+            }
+        } while (column < 1 || column > Table.maxRange);
+        
         table.deleteValue(--line, --column);
     }
 
@@ -133,8 +181,14 @@ public class Sudoku {
     }
 
     private static void printError() {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println("Deve ser informado um número!");
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println(" =============================");
+        System.out.println(" Deve ser informado um número!");
+        System.out.println(" =============================");
+    }
+
+    private static void printInvalid() {
+        System.out.println(" =============================");
+        System.out.println(" ||     Opção inválida!     ||");
+        System.out.println(" =============================");
     }
 }

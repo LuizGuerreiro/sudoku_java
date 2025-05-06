@@ -70,4 +70,16 @@ public class Verification {
         }
         return test;
     }
+
+    public static boolean completeGame(Cell[][] table) {
+        for (int i = 0; i < Table.maxRange; i++) {
+            for (int j = 0; j < Table.maxRange; j++) {
+                if (table[i][j].getValue() == 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
 }

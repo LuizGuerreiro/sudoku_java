@@ -5,6 +5,8 @@ public class Table {
     public static int maxRange = 9;
     private Cell[][] table = new Cell[9][9];
 
+    public static GameStatusEnum statusGame = GameStatusEnum.NON_STARTED;
+
     public Table(String[] initialArgs) {
         final var args = Stream.of(initialArgs)
             .collect(Collectors.toMap(
@@ -23,10 +25,11 @@ public class Table {
     }
 
     public String toString() {
-        String outPut = "\n*-*-*-*-*-*-*-*-*-*-*-*-*\n";
+        String outPut = "\n \\-|-1-2-3-|-4-5-6-|-7-8-9-|-/\n";
+        outPut = outPut + " -\\|=======================|/-\n";
         int auxiliar;
         for (int i = 0; i < maxRange; i++) {
-            outPut = outPut + "|";
+            outPut = outPut + " " + (i+1) + "||";
             for (int j = 0; j < maxRange; j++) {
                 auxiliar = table[i][j].getValue();
                 outPut = outPut + " " + (auxiliar == 0 ? " " : auxiliar);
@@ -34,15 +37,18 @@ public class Table {
                     outPut = outPut + " |";
                 }
             }
-            outPut = outPut + "\n";
-            if ((i+1)%3 == 0) {
-                outPut = outPut + "-------------------------\n";
+            outPut = outPut + "|" + (i+1) + "\n";
+            if ((i+1) == 3 || (i+1) == 6) {
+                outPut = outPut + " -||-----------------------||-\n";
             }
         }
+        outPut = outPut + " -/|=======================|\\-\n";
+        outPut = outPut + " /-|-1-2-3-|-4-5-6-|-7-8-9-|-\\\n";
         return outPut;
     }
 
     public void insertValue(int line, int column, int value) {
+        statusGame = GameStatusEnum.INCOMPLETE;
         table[line][column].setValue(value);
     }
 
@@ -50,23 +56,36 @@ public class Table {
         table[line][column].setValue(0);
     }
 
-    public void testTable() { // IMPLEMENTAR GAME STATUS
+    public void testTable() { 
+        boolean complete = false;
         boolean result;
-        result = Verification.lines(table);
-        result = Verification.columns(table);
-        result = Verification.groups(table);
 
-        System.out.println((result ? "Nenhum erro encontrado!" : "Jogo contém erro!"));
+        complete = Verification.completeGame(table);
+        if (complete) {
+            statusGame = GameStatusEnum.COMPLETE;
+        }
+        result = Verification.lines(table) && Verification.columns(table) && Verification.groups(table);
+
+        System.out.println(" =============================");
+        System.out.println((result ? " || Nenhum erro encontrado! ||" : " ||    Jogo contém erro!    ||"));
+        System.out.println((statusGame.getLabel()));
+        System.out.println(" =============================");
+        if (result && statusGame.equals(GameStatusEnum.COMPLETE)) {
+            System.out.println(" =============================");
+            System.out.println(" ||       PARABÉNS!!!       ||");
+            System.out.println(" =============================");
+        }
     }
 
-    /*public Integer[] getValues() {
-        Integer[] values = new Integer[81];
-        for (int i = 0; i < maxRange; i++) {
-            for (int j = 0; j < maxRange; j++) {
-                values[(i*10)+j] = table[i][j].getValue();
+    public void restart() {
+        for (int i = 0; i < Table.maxRange; i++) {
+            for (int j = 0; j < Table.maxRange; j++) {
+                if(!table[i][j].getFixed()) {
+                    table[i][j].setValue(0);
+                }
             }
         }
-
-        return values;
-    }*/
+        statusGame = GameStatusEnum.NON_STARTED;
+        System.out.println(" Jogo reiniciado!");
+    }
 }

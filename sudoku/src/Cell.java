@@ -2,7 +2,7 @@ public class Cell {
     private final boolean fixed;
     private final int expected;
     private int value;
-    private int[] pencil;
+    //private int[] pencil;
 
     public Cell(boolean fixed, int expected) {
         this.fixed = fixed;
@@ -11,30 +11,30 @@ public class Cell {
             this.value = expected;
         } else {
             this.value = 0;
-            this.pencil = new int[Table.maxRange];
+            //this.pencil = new int[Table.maxRange];
         }
     }
 
     public void setValue(int value) {
         if (fixed) {
-            System.out.println(">>>>>>>>>------------<<<<<<<<<");
-            System.out.println(">>>>>>>>>Célula fixa!<<<<<<<<<");
-            System.out.println(">>>>>>>>>------------<<<<<<<<<");
+            System.out.println(" =============================");
+            System.out.println(" ||       Célula fixa!      ||");
+            System.out.println(" =============================");
         } else {
             this.value = value;
-            this.pencil = null;
+            //this.pencil = null;
         }
     }
 
-    public void setPencil(int value) {
-        if (fixed) {
-            System.out.println(">>>>>>>>>------------<<<<<<<<<");
-            System.out.println(">>>>>>>>>Célula fixa!<<<<<<<<<");
-            System.out.println(">>>>>>>>>------------<<<<<<<<<");
-        } else {
-            this.pencil[value-1] = value;
-        }
-    }
+    // public void setPencil(int value) {
+    //     if (fixed) {
+    //         System.out.println(" =============================");
+    //         System.out.println(" ||       Célula fixa!      ||");
+    //         System.out.println(" =============================");
+    //     } else {
+    //         this.pencil[value-1] = value;
+    //     }
+    // }
 
     public boolean getFixed() {
         return fixed;
@@ -48,7 +48,7 @@ public class Cell {
         return value;
     }
 
-    public int[] getPencil() {
-        return pencil;
-    }
+    // public int[] getPencil() {
+    //     return pencil;
+    // }
 }

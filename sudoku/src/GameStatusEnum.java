@@ -1,8 +1,8 @@
 public enum GameStatusEnum {
     
-    NON_STARTED("Não iniciado!"),
-    INCOMPLETE("Incompleto!"),
-    COMPLETE("Completo!");
+    NON_STARTED(" ||  Jogo não foi iniciado! ||"),
+    INCOMPLETE(" ||  Jogo está incompleto!  ||"),
+    COMPLETE(" ||   Jogo está completo!   ||");
 
     private String label;
 
